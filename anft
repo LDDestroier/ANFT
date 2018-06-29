@@ -1,0 +1,82 @@
+-- Animated NFT API
+-- Based off of Nitrogenfinger's NFT format
+
+-- This is basically NFT but with multiple frame support, but hey, what's to complain about
+
+local lchar = "\29"
+local bchar = "\30"
+local tchar = "\31"
+
+loadImageData = function(image, background)
+	-- image (string)
+	-- It's the text data that one might read from an "ANFT" file!
+	local x, y, i = 1, 1, string.find(image,lchar)
+	local textCol, backCol = " ", background or " "
+	local char, text, back = "", "", ""
+	local frame = 1
+	local output = {{{}}}
+	local curI, nextI, prevI
+	local hex = "0123456789abcdef "
+	repeat
+		i = i + 1
+		prevI, curI, nextI = image:sub(i+-1,i+-1), image:sub(i,i), image:sub(i+1,i+1)
+		if curI == bchar then
+			if hex:find(nextI) then
+				backCol = nextI
+			else
+				char = char..nextI
+				text = text..textCol
+				back = back..backCol
+			end
+			x = x + 1
+		elseif curI == tchar then
+			if hex:find(nextI) then
+				textCol = nextI
+			else
+				char = char..nextI
+				text = text..textCol
+				back = back..backCol
+			end
+			x = x + 1
+		elseif curI == "\n" then
+			output[frame][y] = {char,text,back}
+			x = 1
+			y = y + 1
+			char, text, back = "","",""
+		elseif curI == lchar then
+			if prevI == "/n" then
+				output[frame][y] = nil
+			end
+			frame = frame + 1
+			output[frame] = {}
+			textCol, backCol = " ", " "
+			char, text, back = "","",""
+			x, y = 1, 1
+		end
+	until i >= #image
+	return output
+end
+
+loadImage = function(path)
+	-- path (string)
+	-- A path to an ANFT file to be loaded.
+	local file = fs.open(path)
+	local contents = file.readAll()
+	file.close()
+	return loadImageData(contents)
+end
+
+drawImage = function(image, frame, x, y)
+	if not tonumber(frame) then error("Frame number expected...") end
+	if not image[frame] then error("Image has no such frame") end
+	local c, t, b
+	for iy = 1, #image[frame][1] do
+		for ix = 1, #image[frame][1][iy] do
+			c, t, b = image[frame][1][iy]:sub(ix,ix), image[frame][2][iy]:sub(ix,ix), image[frame][3][iy]:sub(ix,ix)
+			if (b ~= " ") or (c ~= " ") then
+				term.setCursorPos(x+(ix-1),y+(iy-1))
+				term.blit(c, t, b)
+			end
+		end
+	end
+end
