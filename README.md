@@ -30,7 +30,7 @@ As with the paintutils format, each line represents a row of pixels. When the li
 
 ### Example
 In this example, the 29 character is represented by ~, the 30 character by @, the 31 character represented by #, and the space character by .
-
+```
 ~
 @4a@3#bnft
 @3Fr@d1.
@@ -39,17 +39,15 @@ In this example, the 29 character is represented by ~, the 30 character by @, th
 @4a@3#bnft
 @3Fr@d2.
 @d….
-
+```
 
 Creates
 
-[IMAGE
-REPRESENTING FRAME 1]
+[IMAGE REPRESENTING FRAME 1]
 
 and
 
-[IMAGE
-REPRESENTING FRAME 2]
+[IMAGE EPRESENTING FRAME 2]
 
 
 
