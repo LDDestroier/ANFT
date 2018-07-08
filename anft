@@ -17,6 +17,7 @@ loadImageData = function(image, background)
 	local output = {{{}}}
 	local curI, nextI, prevI
 	local hex = "0123456789abcdef "
+	i = i + 1
 	repeat
 		i = i + 1
 		prevI, curI, nextI = image:sub(i+-1,i+-1), image:sub(i,i), image:sub(i+1,i+1)
