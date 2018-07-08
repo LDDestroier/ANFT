@@ -80,7 +80,7 @@ drawImage = function(image, frame, x, y)
 	if not image[frame] then error("Image has no such frame") end
 	local im = image[frame]
 	for iy = 1, #im do
-		for ix = 1, #im[iy] do
+		for ix = 1, #im[iy][1] do
 			if not (im[iy][1]:sub(ix,ix) == " " and im[iy][3]:sub(ix,ix) == " ") then
 				term.setCursorPos(ix-1+x,iy-1+y)
 				term.blit(
