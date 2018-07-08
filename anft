@@ -76,13 +76,16 @@ end
 drawImage = function(image, frame, x, y)
 	if not tonumber(frame) then error("Frame number expected...") end
 	if not image[frame] then error("Image has no such frame") end
-	local c, t, b
-	for iy = 1, #image[frame][1] do
-		for ix = 1, #image[frame][1][iy] do
-			c, t, b = image[frame][1][iy]:sub(ix,ix), image[frame][2][iy]:sub(ix,ix), image[frame][3][iy]:sub(ix,ix)
-			if (b ~= " ") or (c ~= " ") then
-				term.setCursorPos(x+(ix-1),y+(iy-1))
-				term.blit(c, t, b)
+	local im = image[frame]
+	for iy = 1, #im do
+		for ix = 1, #im[iy] do
+			if not (im[iy][1]:sub(ix,ix) == " " and im[iy][3]:sub(ix,ix) == " ") then
+				term.setCursorPos(ix-1+x,iy-1+y)
+				term.blit(
+					im[iy][1]:sub(ix,ix),
+					im[iy][2]:sub(ix,ix),
+					im[iy][3]:sub(ix,ix)
+				)
 			end
 		end
 	end
