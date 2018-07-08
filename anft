@@ -60,7 +60,7 @@ end
 loadImage = function(path)
 	-- path (string)
 	-- A path to an ANFT file to be loaded.
-	local file = fs.open(path)
+	local file = fs.open(path,"r")
 	local contents = file.readAll()
 	file.close()
 	return loadImageData(contents)
