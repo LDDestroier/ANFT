@@ -21,22 +21,22 @@ loadImageData = function(image, background)
 		i = i + 1
 		prevI, curI, nextI = image:sub(i+-1,i+-1), image:sub(i,i), image:sub(i+1,i+1)
 		if curI == bchar then
-			if hex:find(nextI) then
-				backCol = nextI
-			else
+			if prevI == bchar then
 				char = char..nextI
-				text = text..textCol
-				back = back..backCol
+                                text = text..textCol
+                                back = back..backCol
+			elseif hex:find(nextI:lower())
+				backCol = nextI
 			end
 			x = x + 1
 		elseif curI == tchar then
-			if hex:find(nextI) then
-				textCol = nextI
-			else
-				char = char..nextI
-				text = text..textCol
-				back = back..backCol
-			end
+                        if prevI == bchar then
+                                char = char..nextI
+                                text = text..textCol
+                                back = back..backCol
+                        elseif hex:find(nextI:lower())
+                                textCol = nextI
+                        end
 			x = x + 1
 		elseif curI == "\n" then
 			output[frame][y] = {char,text,back}
@@ -54,6 +54,7 @@ loadImageData = function(image, background)
 			x, y = 1, 1
 		end
 	until i >= #image
+	output[frame][y] = {char,text,back}
 	return output
 end
 
