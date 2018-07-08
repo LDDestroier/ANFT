@@ -1,4 +1,4 @@
-# *COS 6:* Nitrogen Fingers Text
+# *COS ?:* Animated Nitrogen Fingers Text
 
 ## Quick information
 | Information |                           |
