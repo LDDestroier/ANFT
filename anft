@@ -26,19 +26,19 @@ loadImageData = function(image, background)
 				char = char..nextI
 				text = text..textCol
 				back = back..backCol
+				x = x + 1
 			elseif hex:find(nextI:lower()) then
 				backCol = nextI
 			end
-			x = x + 1
 		elseif curI == tchar then
 			if prevI == bchar then
 				char = char..nextI
 				text = text..textCol
 				back = back..backCol
+				x = x + 1
                         elseif hex:find(nextI:lower()) then
 				textCol = nextI
                         end
-			x = x + 1
 		elseif curI == "\n" then
 			output[frame][y] = {char,text,back}
 			x = 1
@@ -58,6 +58,7 @@ loadImageData = function(image, background)
 				char = char..curI
 				text = text..textCol
 				back = back..backCol
+				x = x + 1
 			end
 		end
 	until i >= #image
